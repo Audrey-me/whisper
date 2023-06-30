@@ -13,23 +13,26 @@ export default function Translate() {
 
   const apiName = "realtimeaudiototextapi";
   const path = "/transcribe";
+  const apiUrl = 'http://localhost:8000'
 
   const transcribe = (url) => {
     const myInit = {
       headers: {},
       response: true,
-      body: {
+      body: JSON.stringify({
         fileUrl: url,
         lang: "english"
-      },
+      }),
     };
-    // API.post(apiName, path, myInit)
-    //   .then((response) => {
-    //     console.log(response);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error.response);
-    //   });
+    fetch(`${apiUrl}${path}`, {
+      ...myInit,
+      method: 'POST'
+    }).then((response) => {
+      console.log(response);
+    })
+      .catch((error) => {
+        console.log(error.response);
+      });
   };
 
   const getMicrophonePermission = async () => {
@@ -64,7 +67,7 @@ export default function Translate() {
       localAudioChunks.push(event.data);
       setAudioChunks([event.data]);
     };
-     setAudioChunks(localAudioChunks);
+    setAudioChunks(localAudioChunks);
   };
 
   const stopRecording = () => {

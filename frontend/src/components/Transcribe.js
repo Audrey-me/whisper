@@ -15,14 +15,15 @@ export default function Translate() {
   const path = "/transcribe";
   const apiUrl = 'http://localhost:8000'
 
-  const transcribe = (url) => {
+  const transcribe = (blob) => {
+    const formData = new FormData();
+    formData.append('content', blob);
     const myInit = {
-      headers: {},
+      // headers: {
+      //   "Content-Encoding": "multipart/form-data; boundary=blah"
+      // },
       response: true,
-      body: JSON.stringify({
-        fileUrl: url,
-        lang: "english"
-      }),
+      body: formData,
     };
     fetch(`${apiUrl}${path}`, {
       ...myInit,
@@ -55,7 +56,7 @@ export default function Translate() {
     let stream = await getMicrophonePermission();
     setPlaying(true);
     //create new Media recorder instance using the stream
-    const media = new MediaRecorder(stream, { type: mimeType });
+    const media = new MediaRecorder(stream, { audioBitsPerSecond: 16, type: mimeType });
     //set the MediaRecorder instance to the mediaRecorder ref
     mediaRecorder.current = media;
     //invokes the start method to start the recording process
@@ -77,10 +78,7 @@ export default function Translate() {
     mediaRecorder.current.onstop = () => {
       //creates a blob file from the audiochunks data
       const audioBlob = new Blob(audioChunks, { type: mimeType });
-      //creates a playable URL from the blob file.
-      const audioUrl = URL.createObjectURL(audioBlob);
-      setAudio(audioUrl);
-      transcribe(audioUrl);
+      transcribe(audioBlob);
       setAudioChunks([]);
     };
   };

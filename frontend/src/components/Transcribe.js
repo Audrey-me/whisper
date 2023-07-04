@@ -19,9 +19,7 @@ export default function Translate() {
     const formData = new FormData();
     formData.append('content', blob);
     const myInit = {
-      // headers: {
-      //   "Content-Encoding": "multipart/form-data; boundary=blah"
-      // },
+      headers: {},
       response: true,
       body: formData,
     };
@@ -56,7 +54,7 @@ export default function Translate() {
     let stream = await getMicrophonePermission();
     setPlaying(true);
     //create new Media recorder instance using the stream
-    const media = new MediaRecorder(stream, { audioBitsPerSecond: 16, type: mimeType });
+    const media = new MediaRecorder(stream, { type: mimeType });
     //set the MediaRecorder instance to the mediaRecorder ref
     mediaRecorder.current = media;
     //invokes the start method to start the recording process
@@ -79,6 +77,9 @@ export default function Translate() {
       //creates a blob file from the audiochunks data
       const audioBlob = new Blob(audioChunks, { type: mimeType });
       transcribe(audioBlob);
+      //creates a playable URL from the blob file.
+      const audioUrl = URL.createObjectURL(audioBlob);
+      setAudio(audioUrl);
       setAudioChunks([]);
     };
   };

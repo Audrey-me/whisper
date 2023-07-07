@@ -22,19 +22,19 @@ Overall, real-time audio-to-text is a powerful tool that can be used for a varie
   ```
   git clone https://github.com/Audrey-me/RealTimeAudioToText.git
   ```
-- check the version to ensure it installed successfully by running
+- install the node modules by running
   ```
-  amplify --version
+  npm install
   ```
-- install AWS CLI dependencies
+ 
+- start the backend by running
   ```
-  npm install -g @aws-ampliify/cli
+  npm run dev
   ```
-- configure Amplify
+- start the frontend by running
   ```
-  amplify configure
+  npm start
   ```
-
 ### Built with  
 1. React
 2. AWS Amplify

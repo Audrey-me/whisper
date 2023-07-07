@@ -37,5 +37,4 @@ Overall, real-time audio-to-text is a powerful tool that can be used for a varie
   ```
 ### Built with  
 1. React
-2. AWS Amplify
-3. Hugging Face Transformer
+2. Hugging Face Transformer

@@ -15,14 +15,13 @@ export default function Translate() {
   const path = "/transcribe";
   const apiUrl = 'http://localhost:8000'
 
-  const transcribe = (url) => {
+  const transcribe = (blob) => {
+    const formData = new FormData();
+    formData.append('content', blob);
     const myInit = {
       headers: {},
       response: true,
-      body: JSON.stringify({
-        fileUrl: url,
-        lang: "english"
-      }),
+      body: formData,
     };
     fetch(`${apiUrl}${path}`, {
       ...myInit,
@@ -77,10 +76,10 @@ export default function Translate() {
     mediaRecorder.current.onstop = () => {
       //creates a blob file from the audiochunks data
       const audioBlob = new Blob(audioChunks, { type: mimeType });
+      transcribe(audioBlob);
       //creates a playable URL from the blob file.
       const audioUrl = URL.createObjectURL(audioBlob);
       setAudio(audioUrl);
-      transcribe(audioUrl);
       setAudioChunks([]);
     };
   };
